@@ -41,7 +41,7 @@ def generate_keys(length):
     q = mathutils.get_random_prime(length // 2)
 
     # Encryption breaks if p and q are the same. Ensure that doesn't happen
-    while p==q:
+    while p == q:
         # Keep regenerating q until they're no longer the same
         q = mathutils.get_random_prime(length // 2)
 
@@ -73,6 +73,14 @@ def generate_keys(length):
 
 
 def encrypt_string_by_parts(message, n, e):
+    """
+    Encrypts a string by breaking it into characters, encrypting each integer version of the character, 
+    converting each encrypted integer back to an ascii character, and stringing them together  
+    :param message: Plaintext message
+    :param n: Modulus
+    :param e: Public exponent
+    :return: Encrypted string
+    """
     # Break string into characters to be encrypted
     int_array = [ord(char) for char in message]
     print("Integer form of message:\n" + str(int_array))
@@ -94,6 +102,14 @@ def encrypt_string_by_parts(message, n, e):
 
 
 def decrypt_string_by_parts(ciphertext, n, d):
+    """
+    Decrypts a string by breaking it into characters, decrypting each integer version of the character, 
+    converting each decrypted integer back to an ascii character, and stringing them together
+    :param ciphertext: Encrypted string
+    :param n: Modulus
+    :param d: Private exponent
+    :return: Plaintext, decrypted message
+    """
     # Convert ciphertext to int array
     ciphered_int_array = [ord(char) for char in ciphertext]
     print("Integer form of ciphertext:\n" + str(ciphered_int_array))

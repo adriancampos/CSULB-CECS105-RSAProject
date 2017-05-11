@@ -2,7 +2,16 @@ import rsa
 
 
 def main():
-
+    """
+    A simple menu that allows the user to:
+        1. Demo encryption and decryption with a random keypair
+        2. Generate a keypair
+        3. Encrypt
+        4. Decrypt
+        5. Exit
+    Will print to the console the results of each menu choice
+    :return: None 
+    """
     # Simple menu
     while True:
         print("-----MENU-----")
@@ -83,6 +92,12 @@ def test_rsa_with_integer(message, length):
 
 
 def demo_rsa_string(message, length=6):
+    """
+    Generates a keypair, encrypts message with n and e, and decrypts ciphertext with n and d
+    :param message: 
+    :param length: 
+    :return: 
+    """
     # Generate keys
     print("-----GENERATING KEYS-----")
     n, e, d = rsa.generate_keys(length)
