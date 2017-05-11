@@ -67,6 +67,7 @@ def generate_keys(length):
     # Find the modular multiplicative inverse of e (modulo λ(n))   (d ≡ e−1 (mod λ(n)))
     d = mathutils.get_mod_mult_inv(e, lambda_n)
     print("[SECRET] d:\t", d)
+    print()
 
     return n, e, d
 
@@ -92,7 +93,7 @@ def encrypt_string_by_parts(message, n, e):
     return ciphered_ascii
 
 
-def decrypt_string_by_parts(ciphertext, d, n):
+def decrypt_string_by_parts(ciphertext, n, d):
     # Convert ciphertext to int array
     ciphered_int_array = [ord(char) for char in ciphertext]
     print("Integer form of ciphertext:\n" + str(ciphered_int_array))
