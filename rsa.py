@@ -30,16 +30,6 @@ def decrypt(ciphertext, d, n):
     # return pow(ciphertext, d, n) # Seems to be faster
 
 
-def string_to_decimal(message: str):
-    # TODO This is super ugly.
-    return int(''.join([str(hex(ord(char))[2:]) for char in message]), 16)
-
-
-def decimal_to_string(message: int):
-    # TODO Complete this
-    return "Null"
-
-
 def generate_keys(length):
     """
     Generates public and private keys to be used in encrypt and decrypt functions
