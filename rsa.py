@@ -45,7 +45,8 @@ def generate_keys(length):
         # Keep regenerating q until they're no longer the same
         q = mathutils.get_random_prime(length // 2)
 
-    print("Found p and q")
+    print("[SECRET] p:\t", p)
+    print("[SECRET] q:\t", q)
     # p = 61
     # q = 53
 
@@ -54,17 +55,58 @@ def generate_keys(length):
 
     # Compute λ(n)  (Carmichael's totient function)
     lambda_n = mathutils.totient(p, q)
-    print("Computed totient")
+    print("[SECRET] λ:\t", lambda_n)
 
     # Choose any number 1 < e < lambda that is coprime to lambda
     e = -1
     while e == -1 or not mathutils.is_coprime(e, lambda_n):
         e = random.randrange(1, lambda_n - 1)
         # e = 17
-    print("Found e")
+    print("[      ] e:\t", e)
 
     # Find the modular multiplicative inverse of e (modulo λ(n))   (d ≡ e−1 (mod λ(n)))
     d = mathutils.get_mod_mult_inv(e, lambda_n)
-    print("Found d")
+    print("[SECRET] d:\t", d)
 
     return n, e, d
+
+
+def encrypt_string_by_parts(message, n, e):
+    # Break string into characters to be encrypted
+    int_array = [ord(char) for char in message]
+    print("Integer form of message:\n" + str(int_array))
+    print()
+
+    # Encrypt each item in the array
+    print("Encrypting...")
+    ciphered_int_array = [encrypt(i, n, e) for i in int_array]
+    print("Ciphered integers:\n" + str(ciphered_int_array))
+    print()
+
+    # Convert encrypted integer array back to ascii
+    print("Converting to ascii...")
+    ciphered_ascii = ''.join([chr(i) for i in ciphered_int_array])
+    print("Encrypted ascii message:\n" + ciphered_ascii)
+    print()
+
+    return ciphered_ascii
+
+
+def decrypt_string_by_parts(ciphertext, d, n):
+    # Convert ciphertext to int array
+    ciphered_int_array = [ord(char) for char in ciphertext]
+    print("Integer form of ciphertext:\n" + str(ciphered_int_array))
+    print()
+
+    # Decrypt back to plaintext
+    print("Decrypting...")
+    decrypted_int_array = [decrypt(i, d, n) for i in ciphered_int_array]
+    print("Decrypted integer form:\n" + str(decrypted_int_array))
+    print()
+
+    # Convert back into ascii
+    decrypted_message = ''.join([chr(i) for i in decrypted_int_array])
+    print("Decrypted ascii message:\n" + decrypted_message)
+    print()
+
+    return decrypted_message

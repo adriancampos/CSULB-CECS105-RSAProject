@@ -1,5 +1,11 @@
 import rsa
 
+
+def main():
+    # Demo encryption and decryption with a randomly generated keypair
+    demo_rsa_string("Hello world!", length=6)
+
+
 # TODO Change this to a useful interface
 def test_rsa_with_integer(message, length):
     # Generate our keys
@@ -26,53 +32,27 @@ def test_rsa_with_integer(message, length):
     print("decrypted: " + str(decrypted_message))
 
 
-def perform_rsa_string(message, length):
-    print("Original message:\n" + message)
-    print()
-
-    # Break string into characters to be encrypted
-    int_array = [ord(char) for char in message]
-    print("Integer form of message:\n" + str(int_array))
-    print()
-
-    # TODO move this
+def demo_rsa_string(message, length):
     # Generate keys
-    print("Generating keys...")
+    print("-----GENERATING KEYS-----")
     n, e, d = rsa.generate_keys(length)
+    print()
+    print("Keys:")
     print("n:\t" + str(n))
     print("e:\t" + str(e))
     print("d:\t" + str(d))
-
-    # Encrypt each item in the array
-    print("Encrypting...")
-    ciphered_int_array = [rsa.encrypt(i, n, e) for i in int_array]
-    print("Ciphertext:\n" + str(ciphered_int_array))
     print()
 
-    # Decrypt back to plaintext
-    print("Decrypting...")
-    decrypted_int_array = [rsa.decrypt(i, d, n) for i in ciphered_int_array]
-    print("Decrypted integer form:\n" + str(decrypted_int_array))
-    print()
+    # Encrypt
+    print("-----ENCRYPTION-----")
+    ciphertext = rsa.encrypt_string_by_parts(message, n, e)
 
-    # Convert back into ascii
-    decrypted_message = ''.join([chr(i) for i in decrypted_int_array])
-    print("Decrypted ascii message:\n" + decrypted_message)
-    print()
+    # Decrypt
+    print("-----DECRYPTION-----")
+    plaintext = rsa.decrypt_string_by_parts(ciphertext, d, n)
 
-
+    print("-----RESULT-----")
+    print(plaintext)
 
 
-
-
-perform_rsa_string("Hello world!", length = 4)
-
-
-
-
-
-# test_rsa_with_integer(108, length=4)
-
-
-
-
+main()
