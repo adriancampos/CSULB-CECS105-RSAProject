@@ -1,9 +1,29 @@
-import sys
-from eulerstheorem import calculate_remainder
+import rsa
 
-if __name__ == "__main__":
-    try:
-        print(calculate_remainder(int(eval(sys.argv[1])), int(eval(sys.argv[2])), int(eval(sys.argv[3]))))
-    except IndexError:
-        print("Must pass three integers. Using default: 245**1040 / 18.")
-        print(calculate_remainder(245, 1040, 18))
+# TODO Change this to a useful interface
+
+# Generate our keys
+n, e, d = rsa.generate_keys(4)
+
+print("n:\t" + str(n))
+print("e:\t" + str(e))
+print("d:\t" + str(d))
+
+# Create the message to encrypt
+message = 1024
+
+print("Original message: " + str(message))
+
+print("Encrypting {} with public key: n={} | e={}:".format(message, n, e))
+
+# Encrypt using public key
+ciphertext = rsa.encrypt(message, n, e)
+
+print("ciphertext: " + str(ciphertext))
+
+print("Decrypting {} with private key: d={} | n={}:".format(ciphertext, d, n))
+
+# Decrypt using private key
+decrypted_message = rsa.decrypt(ciphertext, d, n)
+
+print("decrypted: " + str(decrypted_message))
