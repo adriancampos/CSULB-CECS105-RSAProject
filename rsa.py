@@ -50,6 +50,11 @@ def generate_keys(length):
     p = mathutils.get_random_prime(length // 2)  # The length of p and q is half of the total length, since n = pq
     q = mathutils.get_random_prime(length // 2)
 
+    # Encryption breaks if p and q are the same. Ensure that doesn't happen
+    while p==q:
+        # Keep regenerating q until they're no longer the same
+        q = mathutils.get_random_prime(length // 2)
+
     print("Found p and q")
     # p = 61
     # q = 53
