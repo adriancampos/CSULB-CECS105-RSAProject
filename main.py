@@ -114,7 +114,7 @@ def demo_rsa_with_integer(message, key_length):
     print("Decryptetd integer:\n" + str(decrypted_message))
 
 
-def demo_rsa_string(message, key_length=6):
+def demo_rsa_string(message, key_length=8):
     """
     Generates a keypair, encrypts message with n and e, and decrypts ciphertext with n and d
     :param message: 

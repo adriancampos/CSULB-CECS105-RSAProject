@@ -97,16 +97,14 @@ def encrypt_string_by_parts(message, n, e):
     # Encrypt each item in the array
     print("Encrypting...")
     ciphered_int_array = [encrypt(i, n, e) for i in int_array]
-    print("Ciphered integers:\n" + str(ciphered_int_array))
+
+    # Print encrypted integer array as integers separated by a space
+
+    ciphertext = ' '.join([str(i) for i in ciphered_int_array])
+    print("Encrypted message:\n" + ciphertext)
     print()
 
-    # Convert encrypted integer array back to ascii
-    print("Converting to ascii...")
-    ciphered_ascii = ''.join([chr(i) for i in ciphered_int_array])
-    print("Encrypted ascii message:\n" + ciphered_ascii)
-    print()
-
-    return ciphered_ascii
+    return ciphertext
 
 
 def decrypt_string_by_parts(ciphertext, n, d):
@@ -119,9 +117,7 @@ def decrypt_string_by_parts(ciphertext, n, d):
     :return: Plaintext, decrypted message
     """
     # Convert ciphertext to int array
-    ciphered_int_array = [ord(char) for char in ciphertext]
-    print("Integer form of ciphertext:\n" + str(ciphered_int_array))
-    print()
+    ciphered_int_array = [int(stringed_number) for stringed_number in ciphertext.split(' ')]
 
     # Decrypt back to plaintext
     print("Decrypting...")
