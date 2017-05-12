@@ -63,7 +63,7 @@ def generate_keys(length):
 
     # Compute λ(n)  (Carmichael's totient function)
     lambda_n = mathutils.totient(p, q)
-    print("[SECRET] λ:\t", lambda_n)
+    print("[SECRET] lambda:\t", lambda_n)
 
     # Choose any number 1 < e < lambda that is coprime to lambda
     e = -1
