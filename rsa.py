@@ -4,6 +4,7 @@ Heavily inspired by https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Operation a
 """
 import random
 import mathutils
+import math
 
 
 def encrypt(message, n, e):
@@ -14,6 +15,14 @@ def encrypt(message, n, e):
     :param e: 
     :return: Ciphertext
     """
+
+    # Verify the key is long enough for the encryption to work
+    # print(math.log(message))
+    # print(n)
+    # print(math.log10(message) > math.log10(n))
+    if math.log10(message) > math.log10(n):
+        raise ValueError("Key length too short")
+
     # return mathutils.calculate_remainder(message, e, n)  # Traditional Euler's Theorem. Slow with big mod numbers
     return mathutils.calculate_remainder_fast(message, e, n) # Much faster; uses built-in pow() function
 
@@ -37,8 +46,8 @@ def generate_keys(length):
     :return: n, e, d
     """
     # Get two primes, p and q
-    p = mathutils.get_random_prime(length // 2)  # The length of p and q is half of the total length, since n = pq
-    q = mathutils.get_random_prime(length // 2)
+    p = mathutils.get_random_prime(math.ceil(length / 2))  # The length of p and q is half of total length, since n = pq
+    q = mathutils.get_random_prime(math.ceil(length / 2))
 
     # Encryption breaks if p and q are the same. Ensure that doesn't happen
     while p == q:
