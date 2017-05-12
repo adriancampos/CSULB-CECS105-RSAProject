@@ -5,29 +5,36 @@ def main():
     """
     A simple menu that allows the user to:
         1. Demo encryption and decryption with a random keypair
-        2. Generate a keypair
-        3. Encrypt
-        4. Decrypt
-        5. Exit
+        2. Test encryption and decryption with specified integer and length
+        3. Generate a keypair
+        4. Encrypt
+        5. Decrypt
+        6. Exit
     Will print to the console the results of each menu choice
     :return: None 
     """
     # Simple menu
     while True:
         print("-----MENU-----")
-        print("1. Demo encryption and decryption with a random keypair")
-        print("2. Generate a keypair")
-        print("3. Encrypt")
-        print("4. Decrypt")
-        print("5. Exit")
+        print("1. Demo encryption and decryption with a string and a random keypair")
+        print("2. Demo encryption and decryption with an integer and specified length")
+        print("3. Generate a keypair")
+        print("4. Encrypt")
+        print("5. Decrypt")
+        print("6. Exit")
 
         choice = input()
 
         if choice == '1':
             # Demo encryption and decryption with a randomly generated keypair
             demo_rsa_string(input("Enter a string to encrypt and decrypt: "))
-        # Generate a keypair
         elif choice == '2':
+            try:
+                demo_rsa_with_integer(int(input("Enter integer message: ")), length=int(input("Enter length: ")))
+            except ValueError as e:
+                print("Couldn't test (" + str(e) + ")")
+        # Generate a keypair
+        elif choice == '3':
             try:
                 n, e, d = rsa.generate_keys(int(input("Enter desired length: ")))
                 print("Modulus (n):\t" + str(n))
@@ -36,7 +43,7 @@ def main():
             except ValueError as e:
                 print("Couldn't generate key (" + str(e) + ")")
         # Encrypt
-        elif choice == '3':
+        elif choice == '4':
             try:
                 print(
                     "Result:\t" +
@@ -49,7 +56,7 @@ def main():
             except ValueError as e:
                 print("Invalid key (" + str(e) + ")")
         # Decrypt
-        elif choice == '4':
+        elif choice == '5':
             try:
                 print(
                     "Result:\t" +
@@ -62,11 +69,11 @@ def main():
             except ValueError as e:
                 print("Invalid key (" + str(e) + ")")
         # Exit
-        elif choice == '5':
+        elif choice == '6':
             break
 
 
-def test_rsa_with_integer(message, length):
+def demo_rsa_with_integer(message, length):
     # Generate our keys
     n, e, d = rsa.generate_keys(length)
 
@@ -89,6 +96,7 @@ def test_rsa_with_integer(message, length):
     decrypted_message = rsa.decrypt(ciphertext, d, n)
 
     print("decrypted: " + str(decrypted_message))
+    print()
 
 
 def demo_rsa_string(message, length=6):
