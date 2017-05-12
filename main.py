@@ -31,7 +31,7 @@ def main():
             print()
         elif choice == '2':
             try:
-                demo_rsa_with_integer(int(input("Enter integer message: ")), key_length=int(input("Enter length: ")))
+                demo_rsa_integer(int(input("Enter integer message: ")), key_length=int(input("Enter key length: ")))
             except ValueError as e:
                 print("Couldn't test (" + str(e) + ")")
             finally:
@@ -88,7 +88,7 @@ def main():
             break
 
 
-def demo_rsa_with_integer(message, key_length):
+def demo_rsa_integer(message, key_length):
     # Generate our keys
     n, e, d = rsa.generate_keys(key_length)
 
@@ -111,7 +111,7 @@ def demo_rsa_with_integer(message, key_length):
     # Decrypt using private key
     decrypted_message = rsa.decrypt(ciphertext, d, n)
     print()
-    print("Decryptetd integer:\n" + str(decrypted_message))
+    print("Decrypted integer:\n" + str(decrypted_message))
 
 
 def demo_rsa_string(message, key_length=8):
@@ -144,7 +144,7 @@ def demo_rsa_string(message, key_length=8):
 
 
 def run_debug_stuff():
-    demo_rsa_with_integer(123456, length=8)
+    demo_rsa_integer(123456, length=8)
 
 
 main()
