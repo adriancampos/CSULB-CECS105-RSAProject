@@ -65,7 +65,7 @@ def generate_keys(length):
     print("[      ] e:\t", e)
 
     # Find the modular multiplicative inverse of e (modulo λ(n))   (d ≡ e−1 (mod λ(n)))
-    d = mathutils.get_mod_mult_inv(e, lambda_n)
+    d = mathutils.get_mod_mult_inv_euclid(e, lambda_n)
     print("[SECRET] d:\t", d)
     print()
 

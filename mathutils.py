@@ -76,30 +76,92 @@ def is_coprime(a, b):
     return gcd(a, b) == 1
 
 
-# TODO Get an efficient modular multiplicative inverse algorithm working...
-def get_mod_mult_inv(b,n):
-    """Wrapper function until I find a mod mult inv function that works well"""
-    return get_mod_mult_inv_guess_and_check(b, n)
-
-
-def get_mod_mult_inv_guess_and_check(b, n):
+def get_mod_mult_inv_euclid(a, m):
     """
-    This is a terrible modular multiplicative inverse function. Simply tries values until it finds the solution.
-    Won't work for moderately large numbers.
-    :param b: 
-    :param n: 
+    Modular multiplicative inverse of 𝑎 (mod 𝑚) (Finds 𝑥 to satisfy 𝑎𝑥 ≡ 1 (mod 𝑚)) using Extended Euclidean algorithm
+    
+    From https://en.wikipedia.org/wiki/Modular_multiplicative_inverse#Extended_Euclidean_algorithm:
+    If 𝑎 has a multiplicative inverse modulo 𝑚, this gcd must be 1
+    In this case, 𝑎𝑥 + 𝑚𝑦 = gcd(𝑎, 𝑚) = 1
+    Which can be rewritten: 𝑎𝑥 - 1 = (-𝑦)𝑚
+    Which is: 𝑎𝑥 ≡ 1 (mod 𝑚)
+    
+    :param a: 
+    :param m: 
     :return: 
     """
-    test = 0
-    while True:
-        test += 1
-        if b * test % n == 1:
-            return test
+
+    # Unpack tuple:
+    #     GCD (just to verify)
+    #     x: the Bézout coefficient that satisfies 𝑎𝑥 ≡ 1 (mod 𝑚)
+    #     y: the other Bézout coefficient. Unused since we're taking mod m
+    m_gcd, x, y = extended_euclid_gcd(a, m)
+
+    # Check that the gcd is actually 1
+    if m_gcd == 1:
+        return x % m
+    # If it's not, something's wrong
+    else:
+        raise ValueError("Modular Multiplicative Inverse: gcd(a, m) != 1")
+
+
+def extended_euclid_gcd(a, b):
+    """
+    Finds gcd using the Extended Euclidean Algorithm (ax + by = gcd(a,b))
+    Based off of https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm#Description
+    
+    :param a: integer a
+    :param b: integer b
+    :return: (gcd, x, y) such that ax + by = gcd(a,b); x and y are the Bézout coefficients
+    """
+
+    # Set up the first two iterations of the sequence
+    old_remainder = a  # r₀ = a
+    old_s = 1  # s₀ = 1
+    old_t = 0  # t₀ = 0
+
+    remainder = b  # r₁ = b
+    s = 0  # s₁ = 0
+    t = 1  # t₁ = 1
+
+    # Iterate through the rest of the steps. Computation stops once the remainder is 0
+    while remainder != 0:
+        # Find the whole number result (floor division) of dividing the two numbers in the remainder column
+        quotient = old_remainder // remainder
+
+        # Move remainder to old remainder, and compute (and update) the new remainder
+        # Could replace 'old_remainder - quotient * remainder' with 'old_remainder % remainder',
+        # but since we already spent time to compute the quotient, use it
+        old_remainder, remainder = remainder, old_remainder - quotient * remainder
+
+        # Move s to old s, compute new s: sᵢ₊₁ = sᵢ₋₁-qᵢ sᵢ; new s = old_s - q * current_s
+        old_s, s = s, old_s - quotient * s
+
+        # Move t to old t, compute new t: tᵢ₊₁ = tᵢ₋₁-qᵢ tᵢ; new t = old_t - q * current_t
+        old_t, t = t, old_t - quotient * t
+
+    # Debug print
+    if False:
+        print("a        : ", a)
+        print("b        : ", b)
+        print("x (old_s):", old_s)
+        print("y (old_t):", old_t)
+        print("gcd      :", old_remainder)
+        # Confirm that ax + by == gcd(a,b)
+        print(a * old_s + b * old_t == old_remainder)
+
+    # Returns a tuple of:
+    #     The GCD:
+    #         "The greatest common divisor is the last non zero entry [in the remainder column]" (old_remainder)
+    #     The Bézout coefficients:
+    #         "Bézout coefficients appear in the [s and t columns] of the second-to-last row"
+    #         Therefore, they are the last values of s and t, not the most recent (old_s and old_t)
+    return old_remainder, old_s, old_t
 
 
 def get_mod_mult_inv_euler(a, m):
     """
-    Finds modular multiplicative inverse using Euler's Theorem
+    Finds the modular multiplicative inverse of 𝑎 (mod 𝑚) (Finds 𝑥 to satisfy 𝑎𝑥 ≡ 1 (mod 𝑚)) using Euler's Theorem
     https://en.wikipedia.org/wiki/Modular_multiplicative_inverse#Using_Euler.27s_theorem
     Not as fast as Extended Euclid, and actually isn't any faster than brute forcing...
     :param a: 
