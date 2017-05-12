@@ -14,8 +14,8 @@ def encrypt(message, n, e):
     :param e: 
     :return: Ciphertext
     """
-    return mathutils.calculate_remainder(message, e, n)  # Traditional Euler's Theorem. Slow with big mod numbers
-    # return mathutils.calculate_remainder_fast(message, e, n) # Much faster; uses built-in pow() function
+    # return mathutils.calculate_remainder(message, e, n)  # Traditional Euler's Theorem. Slow with big mod numbers
+    return mathutils.calculate_remainder_fast(message, e, n) # Much faster; uses built-in pow() function
 
 
 def decrypt(ciphertext, d, n):
@@ -26,8 +26,8 @@ def decrypt(ciphertext, d, n):
     :param n: 
     :return: Decrypted message
     """
-    return mathutils.calculate_remainder(ciphertext, d, n)  # Traditional Euler's Theorem. Slow with big mod numbers
-    # return mathutils.calculate_remainder_fast(ciphertext, d, n)  # Much faster; uses built-in pow() function
+    # return mathutils.calculate_remainder(ciphertext, d, n)  # Traditional Euler's Theorem. Slow with big mod numbers
+    return mathutils.calculate_remainder_fast(ciphertext, d, n)  # Much faster; uses built-in pow() function
 
 
 def generate_keys(length):
