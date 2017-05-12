@@ -95,7 +95,7 @@ def get_mod_mult_inv_euclid(a, m):
     #     GCD (just to verify)
     #     x: the Bézout coefficient that satisfies 𝑎𝑥 ≡ 1 (mod 𝑚)
     #     y: the other Bézout coefficient. Unused since we're taking mod m
-    m_gcd, x, y = extended_euclid_gcd(a, m)
+    m_gcd, x, _ = extended_euclid_gcd(a, m)
 
     # Check that the gcd is actually 1
     if m_gcd == 1:
