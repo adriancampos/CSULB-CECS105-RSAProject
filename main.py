@@ -2,6 +2,7 @@ import rsa
 
 
 def main():
+    run_debug_stuff()
     """
     A simple menu that allows the user to:
         1. Demo encryption and decryption with a random keypair
@@ -127,5 +128,8 @@ def demo_rsa_string(message, length=6):
     print("-----RESULT-----")
     print(plaintext)
 
+
+def run_debug_stuff():
+    demo_rsa_with_integer(123456, length=8)
 
 main()

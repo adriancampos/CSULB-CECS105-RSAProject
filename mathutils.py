@@ -76,8 +76,13 @@ def is_coprime(a, b):
     return gcd(a, b) == 1
 
 
-# TODO Replace this with a proper solution
-def get_mod_mult_inv(b, n):
+# TODO Get an efficient modular multiplicative inverse algorithm working...
+def get_mod_mult_inv(b,n):
+    """Wrapper function until I find a mod mult inv function that works well"""
+    return get_mod_mult_inv_guess_and_check(b, n)
+
+
+def get_mod_mult_inv_guess_and_check(b, n):
     """
     This is a terrible modular multiplicative inverse function. Simply tries values until it finds the solution.
     Won't work for moderately large numbers.
@@ -90,6 +95,32 @@ def get_mod_mult_inv(b, n):
         test += 1
         if b * test % n == 1:
             return test
+
+
+def get_mod_mult_inv_euler(a, m):
+    """
+    Finds modular multiplicative inverse using Euler's Theorem
+    https://en.wikipedia.org/wiki/Modular_multiplicative_inverse#Using_Euler.27s_theorem
+    Not as fast as Extended Euclid, and actually isn't any faster than brute forcing...
+    :param a: 
+    :param m: 
+    :return: 
+    """
+    return a ** (phi(m) - 1)
+
+
+def calculate_remainder_fast(a, exp, m):
+    """Calculates (a ** exp) % m efficiently. A wrapper for Python's pow() function"""
+    return pow(a, exp, m)
+
+    # Source:
+    # number = 1
+    # while exp:
+    #     if exp & 1:
+    #         number = number * a % m
+    #     exp >>= 1
+    #     a = a * a % m
+    # return number
 
 
 def calculate_remainder(a, exponent, m):

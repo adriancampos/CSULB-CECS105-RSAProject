@@ -15,7 +15,7 @@ def encrypt(message, n, e):
     :return: Ciphertext
     """
     return mathutils.calculate_remainder(message, e, n)
-    # return pow(message, e, n) # Seems to be faster
+    # return mathutils.calculate_remainder_fast(message, e, n) # Much faster; uses built-in pow() function
 
 
 def decrypt(ciphertext, d, n):
@@ -27,7 +27,7 @@ def decrypt(ciphertext, d, n):
     :return: Decrypted message
     """
     return mathutils.calculate_remainder(ciphertext, d, n)
-    # return pow(ciphertext, d, n) # Seems to be faster
+    # return mathutils.calculate_remainder_fast(ciphertext, d, n)  # Much faster; uses built-in pow() function
 
 
 def generate_keys(length):
